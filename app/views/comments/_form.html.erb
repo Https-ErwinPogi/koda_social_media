@@ -1,0 +1,7 @@
+<%= form_with model: comment, url: path, data: { turbo: false } do |form| %>
+  <div class="form-group">
+    <%= form.label 'Write new comment', class: "text-black" %>
+    <%= form.text_area :content, class: "form-control my-2", placeholder: "New Comment" %>
+  </div>
+  <%= form.submit class: "btn btn-success" %>
+<% end %>

@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="card bg-dark">
+    <div class="card-header">
+      <div class="d-flex align-items-center gap-2">
+        <%= image_tag 'erwin.jpeg', alt: "Profile", height: 40, width: 40, class: "rounded-circle" %>
+        <div class="flex-column flex-grow-1">
+          <p style="margin: 0"><%= current_user.username %></p>
+          <small class="text-muted"><%= time_ago_in_words(@post.created_at) %> <span class="text-white">&middot;</span>
+            <% if @post.post_public? %>
+              <i class="bi bi-globe-asia-australia"></i>
+            <% end %>
+            <% if @post.only_friend? %>
+              <i class="bi bi-people-fill"></i>
+            <% end %>
+            <% if @post.post_private? %>
+              <i class="bi bi-lock-fill"></i>
+            <% end %>
+          </small>
+        </div>
+      </div>
+
+    </div>
+    <div class="card-body">
+      <p><%= @post.content %></p>
+    </div>
+    <div class="card-footer">
+      <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Show comments
+      </a></strong></p>
+      <div class="collapse.show mb-5" id="collapseExample">
+        <div class="card card-body">
+          <%= render 'posts/comment_index' %>
+          <%= render partial: 'comments/form', locals: { comment: @post.comments.new, path: post_comments_path(@post) } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
