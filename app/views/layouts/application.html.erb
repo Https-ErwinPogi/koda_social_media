@@ -10,8 +10,10 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
+  <body style="background-color: #121212" class="text-white">
   <span class="notice text-success"><%= notice %></span>
   <span class="alert text-danger"><%= alert %></span>
   <%= yield %>
+  <%= turbo_frame_tag "remote_modal" %>
   </body>
 </html>

@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "remote_modal" do %>
+  <%= render partial: 'posts/form_modal', locals: { post: @post, path: posts_path } %>
+<% end %>
