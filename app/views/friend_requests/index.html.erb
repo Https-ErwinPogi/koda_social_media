@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="card bg-dark">
+    <div class="card-header">Friend Requests</div>
+    <div class="card-body rounded">
+      <% if @incoming.present? %>
+        <% @incoming&.each do |request| %>
+          <%= request.user.username %>
+          <%= button_to 'Accept Friend', friend_request_path(request), method: :put %>
+          <%= button_to 'Remove Request', friend_request_path(request), method: :delete %>
+          </tr>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card bg-dark mt-5">
+    <div class="card-header">Find Friends</div>
+    <% if @find_friends.present? %>
+      <% @find_friends.each do |find_friends| %>
+        <div class="card-body">
+          <%= find_friends.username %>
+          <%= button_to 'Add friend', { action: :create, controller: 'friend_requests', friend_id: find_friends.id }, method: :post%>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="card bg-dark mt-5">
+    <div class="card-header">Recently added</div>
+    <% if @outgoing.present? %>
+      <% @outgoing.each do |sent_request| %>
+        <div class="card-body">
+          <%= sent_request.friend.username %>
+          <%= button_to 'Cancel Request', friend_request_path(sent_request), method: :delete %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
