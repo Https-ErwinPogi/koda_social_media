@@ -1,0 +1,26 @@
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <div class="container">
+    <%= link_to (image_tag "koda.png", height: 50, width: 50, class: "rounded-circle"), posts_path, class: "navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" %>
+    <ul class="nav nav-pills ">
+      <li class="nav-item dropdown ms-auto">
+        <%= link_to 'Find Friends', "#", class: "bi bi-person-fill-add nav-link text-white" %>
+      </li>
+      <li class="nav-item dropdown ms-auto">
+        <%= link_to 'Friends', "#", class: "bi bi-people-fill nav-link text-white" %>
+      </li>
+      <li class="nav-item dropdown ms-auto">
+        <a href="#" class="nav-link text-white" data-bs-toggle="dropdown"><%= image_tag "erwin.jpeg", height: 40, width: 40, class: "rounded-circle" %></a>
+        <div class="dropdown-menu dropdown-menu-end">
+          <% if user_signed_in? %>
+            <a href="#" class="dropdown-item" data-bs-toggle="dropdown">Profile</a>
+            <a href="#" class="dropdown-item">Settings</a>
+            <div class="dropdown-divider"></div>
+            <%= button_to "Log Out", destroy_user_session_path, { onclick: "return confirm('Are you sure you want to delete?')", method: :delete, class: "dropdown-item" } %>
+          <% else %>
+            <%= link_to "Login", new_user_session_path, class: "dropdown-item" %>
+          <% end %>
+        </div>
+      </li>
+    </ul>
+  </div>
+</header>
