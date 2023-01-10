@@ -13,6 +13,12 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.user = current_user
+    if Rails.env.development?
+      @post.location = Net::HTTP.get(URI.parse('http://checkip.amazonaws.com/')).squish
+      @post.location = Geocoder.search(@post.location).first.city
+    else
+      @post.location = request.remote_ip
+    end
     if @post.save
       flash[:notice] = "Post was successfully saved"
       redirect_to posts_path

@@ -28,7 +28,12 @@
               <% if post.post_private? %>
                 <i class="bi bi-lock-fill"></i>
               <% end %>
+              <% if post.location? %>
+                <span class="text-white">&middot;</span>
+                <%= post.location %>
+              <% end %>
             </small>
+
           </div>
           <div class="dropdown">
             <button style="outline: none;
@@ -49,6 +54,7 @@
       </div>
       <div class="card-body">
         <p><%= post.content %></p>
+        <%= image_tag post.image.url, class: "rounded w-100", height: 400 if post.image? %>
       </div>
     </div>
   <% end %>
