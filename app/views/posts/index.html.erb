@@ -17,7 +17,7 @@
         <div class="d-flex align-items-center gap-2">
           <%= image_tag 'erwin.jpeg', alt: "Profile", height: 40, width: 40, class: "rounded-circle" %>
           <div class="flex-column flex-grow-1">
-            <p style="margin: 0"><%= current_user.username %></p>
+            <p style="margin: 0"><%= post.user.username %></p>
             <small class="text-muted"><%= time_ago_in_words(post.created_at) %> <span class="text-white">&middot;</span>
               <% if post.post_public? %>
                 <i class="bi bi-globe-asia-australia"></i>
@@ -44,9 +44,9 @@
               <i class="bi bi-three-dots text-white"></i>
             </button>
             <ul class="dropdown-menu">
-              <li><%= link_to "Edit", edit_post_path(post), "data-controller": "turbo", class: "dropdown-item bi bi-pencil" %></li>
+              <li><%= link_to "Edit", edit_post_path(post), "data-controller": "turbo", class: "dropdown-item bi bi-pencil" if policy(post).edit? %></li>
               <li><%= link_to "Show", post_path(post), class: "dropdown-item bi bi-eye" %></li>
-              <li><%= button_to "Delete", post_path(post), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "dropdown-item bi bi-trash3" %></li>
+              <li><%= button_to "Delete", post_path(post), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "dropdown-item bi bi-trash3" if policy(post).destroy? %></li>
             </ul>
           </div>
         </div>
