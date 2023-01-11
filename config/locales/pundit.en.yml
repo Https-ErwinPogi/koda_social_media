@@ -1,0 +1,12 @@
+en:
+  pundit:
+    default: 'You are not authorized to perform this action.'
+    post_policy:
+      edit?: 'You cannot edit this post!'
+      destroy?: 'You cannot delete posts!'
+    comment_policy:
+      edit?: 'You cannot edit this comment!'
+      destroy?: 'You cannot delete comment!'
+    group_policy:
+      edit?: 'You cannot edit this group!'
+      destroy?: 'You cannot delete group!'

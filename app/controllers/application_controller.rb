@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :set_locale
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -7,6 +8,14 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def set_locale
+    if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
+      session[:locale] = params[:locale]
+    end
+
+    I18n.locale = session[:locale] || I18n.default_locale
+  end
 
   def user_not_authorized(exception)
     policy_name = exception.policy.class.to_s.underscore

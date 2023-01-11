@@ -23,9 +23,12 @@ class GroupsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    authorize @group, :edit?, policy_class: GroupPolicy
+  end
 
   def update
+    authorize @group, :update?, policy_class: GroupPolicy
     if @group.update(group_params)
       flash[:notice] = "Group has been edited"
       redirect_to groups_path
@@ -35,6 +38,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    authorize @group, :destroy?, policy_class: GroupPolicy
     @group.destroy
     flash[:notice] = "Group has been deleted"
     redirect_to groups_path
