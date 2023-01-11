@@ -1,0 +1,16 @@
+<%= link_to polymorphic_path search_entry.searchable do %>
+  <div class="card bg-dark mt-3 text-white">
+    <div class="card-body">
+      <div class="d-flex align-items-center gap-3">
+        <div class="">
+          <img src="<%= search_entry.image %>" alt="profile" class="rounded-circle" height="50" width="50">
+        </div>
+        <div class="flex-column">
+          <span class="d-block">Model: <strong><%= search_entry.searchable_type %></strong></span>
+          <span class="d-block"><%= highlight search_entry.name, params[:query] %></span>
+          <span class="d-block"><%= highlight search_entry.body, params[:query] %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

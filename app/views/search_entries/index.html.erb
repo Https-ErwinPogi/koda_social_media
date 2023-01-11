@@ -1,0 +1,8 @@
+<div class="container">
+  <%= render partial: "search_entries/search_entry", collection: @search_entries %>
+  <% if @search_entries.empty? %>
+    <div class="card bg-dark">
+      <h1 class="text-center">No result found!</h1>
+    </div>
+  <% end %>
+</div>

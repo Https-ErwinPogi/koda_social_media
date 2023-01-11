@@ -1,6 +1,14 @@
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <div class="container">
-    <%= link_to (image_tag "koda.png", height: 50, width: 50, class: "rounded-circle"), posts_path, class: "navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" %>
+    <div class="text-white d-flex">
+    <%= link_to (image_tag "koda.png", height: 50, width: 50, class: "rounded-circle"), posts_path, class: "navbar-brand fs-6" %>
+    <div class="navbar text-white"  >
+      <%= form_with url: :search, method: :get do |form| %>
+      <%= form.text_field :query, class: "btn btn-dark w-100 text-start bi bi-search", style: "background-color: #666666; border-radius: 20px; opacity: 40%; color: white", placeholder: "Search" %>
+    <% end %>
+    </div>
+    </div>
+
     <ul class="nav nav-pills ">
       <li class="nav-item dropdown ms-auto">
         <%= link_to 'Find Friends', friend_requests_path, class: "bi bi-person-fill-add nav-link text-white" %>
