@@ -35,4 +35,5 @@
 /app/assets/images
 /public/uploads/post/image
 /public/uploads/tmp
+/public/uploads/group
 /node_modules

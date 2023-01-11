@@ -12,11 +12,9 @@
 
   <body style="background-color: #121212" class="text-white">
   <%= render 'layouts/header_form' %>
-  <div class="container">
   <span class="notice text-success"><%= notice %></span>
   <span class="alert text-danger"><%= alert %></span>
   <%= yield %>
   <%= turbo_frame_tag "remote_modal" %>
-  </div>
   </body>
 </html>

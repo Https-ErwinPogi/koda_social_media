@@ -11,7 +11,8 @@
       <tr>
         <td><%= friend.email %></td>
         <td><%= friend.username %></td>
-        <td><%= button_to 'Remove Friend', friend_path(friend), method: :delete, data: { turbo_confirm: "Are you sure you want to remove #{friend.username} as friend?" } %></td>
+        <td><%= link_to 'Profile', friendship_path(friend) %></td>
+        <td><%= button_to 'Remove Friend', friendship_path(friend), method: :delete, data: { turbo_confirm: "Are you sure you want to remove #{friend.username} as friend?" } %></td>
       </tr>
     <% end %>
     </tbody>
