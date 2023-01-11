@@ -1,0 +1,46 @@
+<div class="offcanvas offcanvas-start show text-bg-dark" tabindex="-1" id="offcanvasDark" aria-labelledby="offcanvasDarkLabel">
+  <%= form_with model: @group, url: groups_path, data: { turbo: false } do |form| %>
+    <div class="offcanvas-header">
+      <%= link_to '', groups_path, class: "btn-close btn-close-white" %>
+    </div>
+    <div class="offcanvas-body">
+      <small class="text-muted d-block"><%= link_to 'Groups', groups_path, class: "text-muted nav-link d-inline" %>
+        › Create group</small>
+      <h5 class="offcanvas-title" id="offcanvasDarkLabel">Create Group</h5>
+    </div>
+    <div class="offcanvas-body">
+      <div class="mb-2">
+        <%= form.label :cover_photo %>
+        <%= form.file_field :banner, class: "form-control bg-dark text-white", style: "border-color: #666666" %>
+      </div>
+      <div class="mb-2">
+        <% invalid = @group.errors.include?(:name) %>
+        <%= form.text_field :name, class: "form-control bg-dark text-white #{'is-invalid' if invalid}", placeholder: "Enter Name", style: "border-color: #666666" %>
+        <% if invalid %>
+          <small class="invalid-feedback d-block">
+            <% @group.errors.full_messages_for(:name).each do |error_message| %>
+              <%= error_message %>.
+            <% end %>
+          </small>
+        <% end %>
+      </div>
+      <div class="mb-2">
+        <%= form.select :privacy, Group.privacies.keys.map { |w| [w.humanize, w] }, { prompt: 'Choose privacy' }, class: "form-control form-select bg-dark text-white", style: "border-color: #666666" %>
+      </div>
+      <div class="mb-2">
+        <% invalid = @group.errors.include?(:description) %>
+        <%= form.text_field :description, class: "form-control bg-dark text-white  #{'is-invalid' if invalid}", placeholder: "Enter Description", style: "border-color: #666666" %>
+        <% if invalid %>
+          <small class="invalid-feedback d-block">
+            <% @group.errors.full_messages_for(:description).each do |error_message| %>
+              <%= error_message %>.
+            <% end %>
+          </small>
+        <% end %>
+      </div>
+    </div>
+    <div class="offcanvas-body">
+      <%= form.submit class: "w-100 btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
