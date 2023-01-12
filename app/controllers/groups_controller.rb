@@ -23,6 +23,10 @@ class GroupsController < ApplicationController
     end
   end
 
+  def show
+    @members = Membership.where(group: @group).count
+  end
+
   def edit
     authorize @group, :edit?, policy_class: GroupPolicy
   end
@@ -44,6 +48,11 @@ class GroupsController < ApplicationController
     redirect_to groups_path
   end
 
+  def members
+    @join_groups = Membership.includes(:user, :group)
+    @join_groups = Membership.where(group_id: set_join_group)
+  end
+
   private
 
   def group_params
@@ -52,5 +61,9 @@ class GroupsController < ApplicationController
 
   def set_group
     @group = Group.find(params[:id])
+  end
+
+  def set_join_group
+    @group = Group.find(params[:group_id])
   end
 end

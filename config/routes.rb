@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   resources :posts do
     resources :comments, except: :show
   end
-  resources :groups
+  resources :groups do
+    get :members
+  end
+  resources :memberships
   get 'search_entries/index', as: 'search'
 end
