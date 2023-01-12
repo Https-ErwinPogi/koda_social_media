@@ -3,7 +3,10 @@ class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   def index
-    @groups = Group.all
+    group_ids = current_user.memberships.where.not(state: [:decline, :leave]).pluck(:group_id)
+    @groups = current_user.groups.where.not(id: group_ids)
+    @groups = current_user.groups.where(user: current_user)
+    @joined_groups = Membership.where(user: current_user).where(state: :approved).where.not(role: :admin).includes(:user, :group)
   end
 
   def new
@@ -14,7 +17,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     @group.user = current_user
     if @group.save
-      @group_member = current_user.memberships.new(user_id: current_user, group: @group, is_owner: true, role: :admin)
+      @group_member = current_user.memberships.new(user_id: current_user, group: @group, role: :admin, is_owner: true, state: :approved)
       @group_member.save
       flash[:notice] = "Group has been successfully created"
       redirect_to groups_path
@@ -49,8 +52,10 @@ class GroupsController < ApplicationController
   end
 
   def members
-    @join_groups = Membership.includes(:user, :group)
-    @join_groups = Membership.where(group_id: set_join_group)
+    @join_groups = Membership.includes(:user, :group).where(group_id: set_join_group)
+    @current_members = @join_groups.where.not(state: :requesting)
+    @sent_requests = @join_groups.where(user: current_user).requesting
+    @received_requests = @join_groups.requesting
   end
 
   private

@@ -2,23 +2,23 @@
   <div class="d-flex justify-content-center">
     <div class="card bg-dark flex-grow-1" style="max-width: 40rem">
       <div class="card-header text-center"><h2>Member List</h2></div>
-      <% @join_groups.each do |joined| %>
+      <% @current_members.each do |current_members| %>
         <div class="card-body p-3">
           <div class="d-flex gap-2">
             <%= image_tag 'erwin.jpeg', height: 60, width: 60, class: "rounded-circle" %>
             <div class="flex-column ">
-              <span class="d-block"><%= joined.user.username %></span>
-              <span class="d-block"><%= joined.role.humanize if joined.role == "admin" %></span>
-              <small class="text-muted">Joined date: <%= joined.created_at.strftime('%B %d, %Y') %></small>
+              <span class="d-block"><%= current_members.user.username %></span>
+              <span class="d-block"><%= current_members.role.humanize if current_members.role == "admin" %></span>
+              <small class="text-muted">Joined date: <%= current_members.created_at.strftime('%B %d, %Y') %></small>
             </div>
             <div class="dropdown">
               <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-dark" style="border: 0; background-color: #666666; opacity: 40%; color: white">
                 <i class="bi bi-three-dots text-white"></i>
               </button>
               <ul class="dropdown-menu">
-                <li><%= button_to "Add as admin", '#', method: :delete, data: { turbo_confirm: "Are you sure you want to add #{joined.user.username} as admin?" }, class: "dropdown-item" %></li>
-                <li><%= button_to "Add as moderator", '#', method: :delete, data: { turbo_confirm: "Are you sure you want to add #{joined.user.username} as moderator?" }, class: "dropdown-item" %></li>
-                <li><%= button_to "Remove member", '#', method: :delete, data: { turbo_confirm: "Are you sure you want to remove #{joined.user.username} as member?" }, class: "dropdown-item" %></li>
+                <li><%= button_to "Add as admin", '#', method: :delete, data: { turbo_confirm: "Are you sure you want to add #{current_members.user.username} as admin?" }, class: "dropdown-item" %></li>
+                <li><%= button_to "Add as moderator", '#', method: :delete, data: { turbo_confirm: "Are you sure you want to add #{current_members.user.username} as moderator?" }, class: "dropdown-item" %></li>
+                <li><%= button_to "Remove member", '#', method: :delete, data: { turbo_confirm: "Are you sure you want to remove #{current_members.user.username} as member?" }, class: "dropdown-item" %></li>
               </ul>
             </div>
           </div>
@@ -26,4 +26,27 @@
       <% end %>
     </div>
   </div>
+
+  <div class="d-flex justify-content-center mt-5">
+    <div class="card bg-dark flex-grow-1" style="max-width: 40rem">
+      <div class="card bg-dark flex-grow-1" style="max-width: 40rem">
+        <div class="card-header text-center"><h2>Received request</h2></div>
+        <% @received_requests.each do |received_request| %>
+          <% if current_user == received_request.group.user %>
+            <div class="card-body p-3">
+              <div class="d-flex gap-2">
+                <%= image_tag received_request.group.banner.url, height: 60, width: 60, class: "rounded-circle" if received_request.group.banner.present? %>
+                <div class="flex-column ">
+                  <h6>Sent by <%= received_request.user.email %></h6>
+                </div>
+                <%= button_to "Approve", membership_approve_path(received_request), method: :put, class: 'btn btn-outline-primary btn-sm', data: { confirm: "Are you sure, you want to approve?" } if received_request.may_approve? %>
+                <%= button_to "Decline", membership_decline_path(received_request), method: :put, class: 'btn btn-outline-danger btn-sm', data: { confirm: "Are you sure, you want to decline?" }  if received_request.may_decline? %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 </div>

@@ -13,6 +13,12 @@ Rails.application.routes.draw do
   resources :groups do
     get :members
   end
-  resources :memberships
+  resources :memberships do
+    put :approve, to: 'memberships#approve'
+    put :cancel
+    put :decline
+    put :leave
+    put :remove
+  end
   get 'search_entries/index', as: 'search'
 end
