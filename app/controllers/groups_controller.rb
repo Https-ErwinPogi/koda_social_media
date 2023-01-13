@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @members = Membership.where(group: @group).count
+    @members = Membership.approved.where(group: @group).count
   end
 
   def edit
@@ -54,14 +54,30 @@ class GroupsController < ApplicationController
   def members
     @join_groups = Membership.includes(:user, :group).where(group_id: set_join_group)
     @current_members = @join_groups.where.not(state: :requesting)
-    @sent_requests = @join_groups.where(user: current_user).requesting
+    # @sent_requests = @join_groups.where(user: current_user).requesting
     @received_requests = @join_groups.requesting
+    # @can_invite = current_user.memberships.where(group: @group).where(can_invite: 1).present? == true
+    @user_friends = current_user.friends.where.not(id: @group.memberships.where(state: :approved).pluck(:user_id))
+  end
+
+  def invite
+    invite_friend = Membership.where(group_id: params[:group_id]).where(user: params[:user_id]).blank?
+    if invite_friend
+      @join_group = Membership.new(group_id: params[:group_id], user_id: params[:user_id], role: :normal, state: :approved)
+      if @join_group.save
+        redirect_to groups_path
+        flash[:notice] = "Added to group!"
+      else
+        flash[:alert] = @join_group.errors.full_messages.join(", ")
+        redirect_to groups_path
+      end
+    end
   end
 
   private
 
   def group_params
-    params.require(:group).permit(:name, :banner, :description, :privacy)
+    params.require(:group).permit(:name, :banner, :description, :privacy, :can_invite)
   end
 
   def set_group

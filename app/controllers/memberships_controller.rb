@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_action :set_join_group, only: :approve
+  before_action :set_join_group, only: [:approve, :decline]
   before_action :set_group, only: :create
 
   def create

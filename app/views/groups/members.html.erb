@@ -48,5 +48,25 @@
       </div>
     </div>
   </div>
-</div>
+
+  <% if @group.can_invite == true %>
+    <div class="d-flex justify-content-center mt-5">
+      <div class="card bg-dark flex-grow-1" style="max-width: 40rem">
+        <div class="card bg-dark flex-grow-1" style="max-width: 40rem">
+          <div class="card-header text-center"><h2>Invite friends</h2></div>
+          <% @user_friends.each do |user_friend| %>
+            <div class="card-body p-3">
+              <div class="d-flex gap-2">
+                <%= image_tag 'erwin.jpeg', height: 60, width: 60, class: "rounded-circle"%>
+                <div class="flex-column ">
+                  <%= user_friend.username %>
+                </div>
+                <%= button_to 'Invite', { action: :invite, controller: 'groups', group_id: @group.id, user_id: user_friend.id }, data: { turbo_confirm: "Are you sure, you want to #{user_friend.username}?", turbo: false }, method: :post, class: 'btn btn-primary text-primary w-100 mt-2', style: "background-color: rgba(45,136,255, 0.2); border: 0" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

@@ -21,4 +21,5 @@ Rails.application.routes.draw do
     put :remove
   end
   get 'search_entries/index', as: 'search'
+  post 'members/:group_id', as: :invite, to: 'groups#invite'
 end

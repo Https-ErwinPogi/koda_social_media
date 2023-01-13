@@ -38,6 +38,18 @@
           </small>
         <% end %>
       </div>
+      <div class="mb-2">
+        <% invalid = @group.errors.include?(:can_invite) %>
+        <%= form.label 'Invite Permission', class: "d-block" %>
+        <%= form.select :can_invite, [['Allow invite', true], ['Disable invite', false]], { prompt: 'Please Select' }, class: "form-control form-select bg-dark text-white #{'is invalid' if invalid}", style: "border-color: #666666" %>
+        <% if invalid %>
+          <small class="invalid-feedback d-block">
+            <% @group.errors.full_messages_for(:can_invite).each do |error_message| %>
+              <%= error_message %>.
+            <% end %>
+          </small>
+        <% end %>
+      </div>
     </div>
     <div class="offcanvas-body">
       <%= form.submit class: "w-100 btn btn-primary" %>
